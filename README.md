@@ -15,16 +15,18 @@ The **parallel** method is used to handle invoking worker jobs in parallel and n
 ### Calling parallel with an array of jobs
 The **parallel** function supports the following calling conventions:
 ```javascript
-async.parallel(function[], function)
+async.parallel(function[], function, thisObj)
 ```
 or
 ```javascript
-async.parallel(object, function)
+async.parallel(object, function, thisObj)
 ```
 
 If **parallel** is invoked with an array of functions as first argument, then results will provided to the completion callback as array with each index corresponding to the data returned by the job at that index. The order of the results will not be arbitrary &mdash; it will always correspond to the order in which the jobs were provided to the **parallel** function.
 
-If **parallel** is invoked with an object as first argument, then each property is expected to be a function. The results will provided to the completion callback as an object with the value of each property corresponding to the data returned by the job with the corresponding key. 
+If **parallel** is invoked with an object as first argument, then each property is expected to be a function. The results will provided to the completion callback as an object with the value of each property corresponding to the data returned by the job with the corresponding key.
+
+The **thisObj** argument is optional, but if it is provided then each job function will be invoked in the scope of the given value. Also, the final completion callback will be invoked in the scope of the given value.
 
 Example of calling **parallel** with an array of functions as first argument:
 ```javascript
@@ -87,6 +89,13 @@ async.parallel(work, function(err, results) {
 ## Series
 
 The **series** method is used to handle invoking worker jobs in series and notifying the provided callback when all of the jobs complete. Execution of jobs will stop if a job provides an error to the callback. The results will always be an array whose order will correspond to the order in which the jobs were placed in array.
+
+The **series** function supports the following calling convention:
+```javascript
+async.series(function[], function, thisObj)
+```
+
+The **thisObj** argument is optional, but if it is provided then each job function will be invoked in the scope of the given value. Also, the final completion callback will be invoked in the scope of the given value.
 
 Example of calling **series**:
 ```javascript
