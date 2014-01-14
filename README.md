@@ -132,7 +132,7 @@ async.series(work, function(err, results) {
         // toString can be used
         console.error(err.toString());
         
-        // you can also example the errors yourself and output a message
+        // you can also examine the errors yourself and output a message
         var mappedErrors = err.toMap();
         for (var key in mappedErrors) {
             console.error('Job "' + key + '" failed with error "' + mappedErrors[key] + '"';
