@@ -13,7 +13,7 @@ The **parallel** method is used to handle invoking worker jobs in parallel and n
 
 
 ### Calling parallel with an array of jobs
-The **parallel** function accepts supports the following calling conventions:
+The **parallel** function supports the following calling conventions:
 ```javascript
 async.parallel(function[], function)
 ```
