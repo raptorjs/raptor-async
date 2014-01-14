@@ -1,0 +1,26 @@
+{
+  "name": "raptor-async",
+  "version": "0.1.0-SNAPSHOT",
+  "description": "Simple library for orchestrating asynchronous operations",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raptorjs/raptor-async.git"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test"
+  },
+  "author": "Phillip Gates-Idem <phillip.idem@gmail.com>",
+  "maintainers": "Phillip Gates-Idem <phillip.idem@gmail.com>",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "mocha": "~1.15.1",
+    "chai": "~1.8.1"
+  },
+  "license": "Apache License v2.0",
+  "bin": {},
+  "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}
