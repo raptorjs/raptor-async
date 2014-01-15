@@ -22,7 +22,7 @@ or
 async.parallel(object, function, thisObj)
 ```
 
-If **parallel** is invoked with an array of functions as first argument, then results will provided to the completion callback as array with each index corresponding to the data returned by the job at that index. The order of the results will not be arbitrary &mdash; it will always correspond to the order in which the jobs were provided to the **parallel** function.
+If **parallel** is invoked with an array of functions as first argument, then results will provided to the completion callback as an array with the value at each index corresponding to the data returned by the job at that index. The order of the results will not be arbitrary &mdash; it will always correspond to the order in which the jobs were provided to the **parallel** function.
 
 If **parallel** is invoked with an object as first argument, then each property is expected to be a function. The results will provided to the completion callback as an object with the value of each property corresponding to the data returned by the job with the corresponding key.
 
