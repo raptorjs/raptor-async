@@ -1,7 +1,7 @@
 raptor-async
 ============
 
-Simple library for orchestrating asynchronous operations
+**raptor-async** is a simple library for orchestrating asynchronous operations. It was inspired by the popular <a href="https://github.com/caolan/async">caolan/async</a> library. The main difference being that this library only includes **parallel** and **series** functions. This library also supports an optional **thisObj** argument that determines the scope that will be used when invoking job and completion functions.
 
 # Overview
 
