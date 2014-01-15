@@ -150,4 +150,4 @@ async.series(work, function(err, results) {
 });
 ```
 
-Thrown exceptions will not be caught by **parallel** and **series** during invocations of jobs. It is responsible for each job to provide their own try catch blocks if this is necessary.
+Thrown exceptions will not be caught by **parallel** and **series** during invocations of jobs. It is responsibility of each job to provide their own try catch blocks if this is necessary.
