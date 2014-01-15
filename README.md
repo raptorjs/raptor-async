@@ -11,8 +11,6 @@ The **raptor-async** library handles invoking functions (a.k.a. jobs) in **paral
 
 The **parallel** method is used to handle invoking worker jobs in parallel and notifying the provided callback when all of the jobs complete.
 
-
-### Calling parallel with an array of jobs
 The **parallel** function supports the following calling conventions:
 ```javascript
 async.parallel(function[], function, thisObj)
