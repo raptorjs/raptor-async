@@ -121,7 +121,7 @@ describe('raptor-async series' , function() {
         async.series(work, function(err, results) {
             expect(results).to.deep.equal([0, 1, undefined]);
             expect(err.toMap()).to.deep.equal({2: 'This throws an error'});
-            expect(err.toString()).to.equal('Errors encountered during async operation:\n2: This throws an error');
+            expect(err.toString()).to.equal('Error: Errors encountered during async operation:\n2: This throws an error');
             done();
         });
 

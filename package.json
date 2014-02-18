@@ -1,6 +1,6 @@
 {
   "name": "raptor-async",
-  "version": "0.1.0-SNAPSHOT",
+  "version": "0.1.1-SNAPSHOT",
   "description": "Simple library for orchestrating asynchronous operations",
   "repository": {
     "type": "git",
