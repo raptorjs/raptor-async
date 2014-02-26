@@ -1,6 +1,6 @@
 {
   "name": "raptor-async",
-  "version": "0.1.1-SNAPSHOT",
+  "version": "0.2.0-beta",
   "description": "Simple library for orchestrating asynchronous operations",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   },
   "license": "Apache License v2.0",
   "bin": {},
-  "main": "lib/index.js",
+  "main": "lib/raptor-async.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   }
