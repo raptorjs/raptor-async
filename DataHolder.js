@@ -149,13 +149,7 @@ DataHolder.prototype = {
      */
     isSettled: function() {
         // are we in STATE_RESOLVED or STATE_REJECTED?
-        if (this._state > STATE_LOADING) {
-            // we have been settled but has that expired?
-            return !isExpired(this);
-        } else {
-            // initial state (so not settled)
-            return false;
-        }
+        return (this._state > STATE_LOADING) && !isExpired(this);
     },
 
     /**
