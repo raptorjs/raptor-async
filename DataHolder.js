@@ -54,7 +54,7 @@ function DataHolder(options) {
         this._scope = options.scope;
 
         /**
-         * Time-to-live in milliseconds.
+         * Time-to-live (in milliseconds).
          * A data holder can automatically invalidate it's held data or error after a preset period
          * of time. This should be used in combination of a loader. This is helpful in cases
          * where a data holder is used for caching purposes.
@@ -101,7 +101,7 @@ function addCallback(dataProvider, callback, scope) {
 
     dataProvider._callbacks.push({
         callback: callback,
-        scope: scope || dataProvider.scope || dataProvider
+        scope: scope || dataProvider._scope || dataProvider
     });
 }
 
