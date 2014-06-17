@@ -161,7 +161,7 @@ DataHolder.prototype = {
      */
     load: function(callback, scope) {
         if (!this._loader) {
-            throw new Error('cannot call load when no loader is configured');
+            throw new Error('Cannot call load when loader is not configured');
         }
 
         if (this.isSettled()) {
