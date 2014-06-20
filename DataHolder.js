@@ -122,14 +122,15 @@ DataHolder.prototype = {
      * Has resolved function been called?
      */
     isResolved: function() {
-        return (this._state === STATE_RESOLVED) && !this.isExpired();
+
+        return (this._state === STATE_RESOLVED) && !isExpired(this);
     },
 
     /**
      * Has reject function been called?
      */
     isRejected: function() {
-        return (this._state === STATE_REJECTED) && !this.isExpired();
+        return (this._state === STATE_REJECTED) && !isExpired(this);
     },
 
     /**
