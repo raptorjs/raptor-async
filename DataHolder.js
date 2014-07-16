@@ -196,7 +196,7 @@ DataHolder.prototype = {
 
         // Do we already have data or error?
         if (this.isSettled()) {
-            // invoke the callback right way (none of that nextTick stuff like the promise specification)
+            // invoke the callback immediately (none of that nextTick stuff like the promise specification)
             return callback.call(scope || this._scope || this, this.error, this.data);
         }
 
