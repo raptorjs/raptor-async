@@ -1,6 +1,7 @@
 'use strict';
 
 require('chai').should();
+require('chai').Assertion.includeStack = true;
 var expect = require('chai').expect;
 
 var async = require('..');
@@ -70,14 +71,14 @@ describe('raptor-async series' , function() {
         work[0] = function(callback) {
             setTimeout(function() {
                 callback(null, 0);
-            }, 1000);
+            }, 500);
         };
 
         work[1] = function(callback) {
             setTimeout(function() {
                 callback(null, 1);
                 callback(null, 'oops!');
-            }, 500);
+            }, 250);
         };
 
         work[2] = function(callback) {
@@ -103,13 +104,13 @@ describe('raptor-async series' , function() {
         work[0] = function(callback) {
             setTimeout(function() {
                 callback(null, 0);
-            }, 1000);
+            }, 400);
         };
 
         work[1] = function(callback) {
             setTimeout(function() {
                 callback(null, 1);
-            }, 500);
+            }, 200);
         };
 
         work[2] = function(callback) {
@@ -119,9 +120,8 @@ describe('raptor-async series' , function() {
         };
 
         async.series(work, function(err, results) {
-            expect(results).to.deep.equal([0, 1, undefined]);
-            expect(err.toMap()).to.deep.equal({2: 'This throws an error'});
-            expect(err.toString()).to.equal('Error: Errors encountered during async operation:\n2: This throws an error');
+            expect(results == null).to.equal(true);
+            expect(err != null).to.equal(true);
             done();
         });
 

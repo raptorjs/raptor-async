@@ -1,14 +1,21 @@
-var AsyncErrors = require('./AsyncErrors');
-
 module.exports = function parallel(work, callback, thisObj) {
         
-    var errors;
     var results;
     var len;
     var pending;
     var i;
 
     thisObj = thisObj || this;
+
+    var isDone = false;
+
+    function done(err, results) {
+        if (isDone) {
+            return;
+        }
+        isDone = true;
+        callback.call(thisObj, err, results);
+    }
 
     var createCallback = function(key) {
         var invoked = false;
@@ -23,16 +30,14 @@ module.exports = function parallel(work, callback, thisObj) {
             results[key] = data;
             
             if (err) {
-                if (errors === undefined) {
-                    errors = new AsyncErrors();
-                }
-                errors.add(key, err);
+                done(err);
+                return;
             }
 
             pending--;
 
             if (pending === 0) {
-                return callback.call(thisObj, AsyncErrors.init(errors), results);
+                done(null, results);
             }
         };
     };

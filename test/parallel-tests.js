@@ -161,9 +161,8 @@ describe('raptor-async parallel' , function() {
         };
 
         async.parallel(work, function(err, results) {
-            expect(results).to.deep.equal([0, 1, undefined]);
-            expect(err.toMap()).to.deep.equal({2: 'This throws an error'});
-            expect(err.toString()).to.equal('Error: Errors encountered during async operation:\n2: This throws an error');
+            expect(results).to.equal(undefined);
+            expect(err != null).to.equal(true);
             done();
         });
 
@@ -194,9 +193,8 @@ describe('raptor-async parallel' , function() {
         };
 
         async.parallel(work, function(err, results) {
-            expect(results).to.deep.equal({a: 0, b: 1, c: undefined});
-            expect(err.toMap()).to.deep.equal({c: 'This throws an error'});
-            expect(err.toString()).to.equal('Error: Errors encountered during async operation:\nc: This throws an error');
+            expect(results == null).to.equal(true);
+            expect(err != null).to.equal(true);
             done();
         });
 

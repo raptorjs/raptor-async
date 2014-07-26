@@ -1,9 +1,6 @@
-var AsyncErrors = require('./AsyncErrors');
-
 module.exports = function series(work, callback, thisObj) {
     
     var results = new Array(work.length);
-    var errors;
 
     thisObj = thisObj || this;
 
@@ -20,15 +17,12 @@ module.exports = function series(work, callback, thisObj) {
 
             invoked = true;
 
-            results[index] = data;
-
             if (err) {
-                errors = new AsyncErrors();
-                errors.add(index, err);
-
                 // stop on first error
-                return callback.call(thisObj, AsyncErrors.init(errors), results);
+                return callback.call(thisObj, err);
             }
+
+            results[index] = data;
 
             var next = index + 1;
             if (next === work.length) {
