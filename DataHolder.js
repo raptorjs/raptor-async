@@ -60,10 +60,6 @@ function DataHolder(options) {
          * where a data holder is used for caching purposes.
          */
         this._ttl = options.ttl || undefined;
-
-        this._immediate = (options.immediate !== false);
-    } else {
-        this._immediate = true;
     }
 }
 
@@ -201,14 +197,7 @@ DataHolder.prototype = {
         // Do we already have data or error?
         if (this.isSettled()) {
             // invoke the callback immediately
-            if (this._immediate) {
-                return callback.call(scope || this._scope || this, this.error, this.data);
-            } else {
-                var self = this;
-                process.nextTick(function() {
-                    return callback.call(scope || self._scope || self, self.error, self.data);
-                });
-            }
+            return callback.call(scope || this._scope || this, this.error, this.data);
         }
 
         addCallback(this, callback, scope);
