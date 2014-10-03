@@ -3,7 +3,7 @@
   "description": "Simple library for orchestrating asynchronous operations",
   "repository": {
     "type": "git",
-    "url": "https://github.com/raptorjs3/raptor-async.git"
+    "url": "https://github.com/raptorjs/raptor-async.git"
   },
   "scripts": {
     "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test"
