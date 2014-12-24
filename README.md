@@ -138,7 +138,7 @@ async.series(work, function(err, results) {
     if (err) {
         // toString can be used
         console.error(err.toString());
-        
+
         // you can also examine the errors yourself and output a message
         var mappedErrors = err.toMap();
         for (var key in mappedErrors) {
@@ -149,3 +149,65 @@ async.series(work, function(err, results) {
 ```
 
 Thrown exceptions will not be caught by **parallel** and **series** during invocations of jobs. It is responsibility of each job to provide their own try catch blocks if this is necessary.
+
+## DataHolder
+
+Sometimes you need to keep track of an asynchronous operation to know if it is still pending, successfully completed or if it completed with an error. Promises allow for this, but Promises introduce a fair amount of overhead. The `DataHolder` class offered by this module can be used as a lightweight alternative to promises with a much more limited feature set. `DataHolder` instances do not support chaining, but they do support attaching Node.js-style callbacks. The usage of the `DataHolder` class is best described using code as shown below:
+
+```javascript
+var DataHolder = require('raptor-async/DataHolder');
+
+var configDataHolder = new DataHolder();
+
+function loadConfig() {
+    require('fs').readFile('config.json', 'utf8', function(err, json) {
+        if (err) {
+            // Something with wrong, I guess we won't be able to get a valid config...
+            return configDataHolder.reject(err);
+        }
+
+        var config = JSON.parse(json);
+
+        // Success! We completed the asynchronous operation of loading the config
+        // and now we can store the result in the async data holder instance.
+        configDataHolder.resolve(config);
+    });
+}
+
+// Start loading the config immediately
+loadConfig();
+
+exports.onConfigLoaded = function(callback) {
+    // Attach a listener to the data holder
+    configDataHolder.done(callback);
+}
+```
+
+The constructor for the `DataHolder` supports an optional `options` argument (described later).
+
+The most important methods provided by `DataHolder` instances are the following:
+
+- `resolve(data)` - Move the data holder ot the "resolved" state and store the resulting data in the data holder
+- `reject(err)` - Move the data holder ot the "rejected" state and store the resulting error in the data holder
+- `done(callback)` - Attach a Node.js-style callback to the data holder (i.e. `function(err, data)`). If the data holder has already been resolved then the provided callback will be invoked with the stored data as the second argument. If the data holder has already been rejected then the provided callback will be invoked with the stored error as the first argument. If the data holder has not been resolved or rejected then a listener will be attached and the listener will later be invoked when the data holder is later resolved or rejected.
+
+The complete set of `DataHolder` properties are shown below:
+
+- `data` - The resolved data or `undefined` if the data holder has not been resolved
+- `error` - The rejected error or `undefined` if the data holder has not been rejected
+- `isResolved() : Boolean` - Has resolved been called?
+- `isRejected() : Boolean` - Has reject been called?
+- `isLoading() : Boolean` - Is there an outstanding request to load data via loader?
+- `isSettled() : Boolean` - Has reject or resolve been called?
+- `load(callback, scope)`
+- `done(callback, scope)`
+- `reject(err)`
+- `resolve(data)`
+- `reset(data)`
+- `unsettle(data)`
+
+The signature for a `DataHolder` is `function DataHolder(options)` where options is an object with any of the following properties (all optional):
+
+- `loader` - A function that can be used to load the asynchronous data. The provided loader function will be invoked with a callback argument when `load()` is called or lazily when a `done` listener is added for the first time.
+- 'ttl' - A time-to-live in milliseconds. The data holder will go back into the initial unsettled state if the time-to-live is exceeded
+- `scope` - The default value of `this` when invoking any of the provided callbacks or the loader function
