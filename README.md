@@ -150,27 +150,27 @@ async.series(work, function(err, results) {
 
 Thrown exceptions will not be caught by **parallel** and **series** during invocations of jobs. It is responsibility of each job to provide their own try catch blocks if this is necessary.
 
-## DataHolder
+## AsyncValue
 
-Sometimes you need to keep track of an asynchronous operation to know if it is still pending, successfully completed or if it completed with an error. Promises allow for this, but Promises introduce a fair amount of overhead. The `DataHolder` class offered by this module can be used as a lightweight alternative to promises with a much more limited feature set. `DataHolder` instances do not support chaining, but they do support attaching Node.js-style callbacks. The usage of the `DataHolder` class is best described using code as shown below:
+Sometimes you need to keep track of an asynchronous operation to know if it is still pending, successfully completed or if it completed with an error. Promises allow for this, but Promises introduce a fair amount of overhead. The `AsyncValue` class offered by this module can be used as a lightweight alternative to promises with a much more limited feature set. `AsyncValue` instances do not support chaining, but they do support attaching Node.js-style callbacks. The usage of the `AsyncValue` class is best described using code as shown below:
 
 ```javascript
-var DataHolder = require('raptor-async/DataHolder');
+var AsyncValue = require('raptor-async/AsyncValue');
 
-var configDataHolder = new DataHolder();
+var configAsyncValue = new AsyncValue();
 
 function loadConfig() {
     require('fs').readFile('config.json', 'utf8', function(err, json) {
         if (err) {
             // Something with wrong, I guess we won't be able to get a valid config...
-            return configDataHolder.reject(err);
+            return configAsyncValue.reject(err);
         }
 
         var config = JSON.parse(json);
 
         // Success! We completed the asynchronous operation of loading the config
         // and now we can store the result in the async data holder instance.
-        configDataHolder.resolve(config);
+        configAsyncValue.resolve(config);
     });
 }
 
@@ -179,19 +179,19 @@ loadConfig();
 
 exports.onConfigLoaded = function(callback) {
     // Attach a listener to the data holder
-    configDataHolder.done(callback);
+    configAsyncValue.done(callback);
 }
 ```
 
-The constructor for the `DataHolder` supports an optional `options` argument (described later).
+The constructor for the `AsyncValue` supports an optional `options` argument (described later).
 
-The most important methods provided by `DataHolder` instances are the following:
+The most important methods provided by `AsyncValue` instances are the following:
 
 - `resolve(data)` - Move the data holder ot the "resolved" state and store the resulting data in the data holder
 - `reject(err)` - Move the data holder ot the "rejected" state and store the resulting error in the data holder
 - `done(callback)` - Attach a Node.js-style callback to the data holder (i.e. `function(err, data)`). If the data holder has already been resolved then the provided callback will be invoked with the stored data as the second argument. If the data holder has already been rejected then the provided callback will be invoked with the stored error as the first argument. If the data holder has not been resolved or rejected then a listener will be attached and the listener will later be invoked when the data holder is later resolved or rejected.
 
-The complete set of `DataHolder` properties are shown below:
+The complete set of `AsyncValue` properties are shown below:
 
 - `data` - The resolved data or `undefined` if the data holder has not been resolved
 - `error` - The rejected error or `undefined` if the data holder has not been rejected
@@ -206,7 +206,7 @@ The complete set of `DataHolder` properties are shown below:
 - `reset(data)`
 - `unsettle(data)`
 
-The signature for a `DataHolder` is `function DataHolder(options)` where options is an object with any of the following properties (all optional):
+The signature for a `AsyncValue` is `function AsyncValue(options)` where options is an object with any of the following properties (all optional):
 
 - `loader` - A function that can be used to load the asynchronous data. The provided loader function will be invoked with a callback argument when `load()` is called or lazily when a `done` listener is added for the first time.
 - 'ttl' - A time-to-live in milliseconds. The data holder will go back into the initial unsettled state if the time-to-live is exceeded
