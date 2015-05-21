@@ -10,7 +10,7 @@ var now = Date.now || function() {
     return (new Date()).getTime();
 };
 
-function DataHolder(options) {
+function AsyncValue(options) {
 
     /**
      * The data that was provided via call to resolve(data).
@@ -116,7 +116,7 @@ function isExpired(dataProvider) {
     }
 }
 
-DataHolder.prototype = {
+AsyncValue.prototype = {
 
     /**
      * Has resolved function been called?
@@ -231,7 +231,7 @@ DataHolder.prototype = {
         // (we do this so that next call to done() will trigger load
         // again in case the error was transient).
         this._state = this._loader ? STATE_INITIAL : STATE_REJECTED;
-        
+
         // always notify callbacks regardless of whether or not we return to the initial state
         notifyCallbacks(this, err, null);
     },
@@ -278,10 +278,10 @@ DataHolder.prototype = {
     unsettle: function () {
         // return to initial state
         this._state = STATE_INITIAL;
-        
+
         // reset error value
         this.error = undefined;
-        
+
         // reset data value
         this.data = undefined;
 
@@ -290,4 +290,8 @@ DataHolder.prototype = {
     }
 };
 
-module.exports = DataHolder;
+AsyncValue.create = function(config) {
+    return new AsyncValue(config);
+};
+
+module.exports = AsyncValue;
