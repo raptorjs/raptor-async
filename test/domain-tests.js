@@ -5,7 +5,7 @@ require('chai').Assertion.includeStack = true;
 var expect = require('chai').expect;
 var Domain = require('domain');
 
-var DataHolder = require('../DataHolder');
+var AsyncValue = require('../AsyncValue');
 
 function createGroupDone(limit, next) {
 
@@ -19,7 +19,7 @@ function createGroupDone(limit, next) {
     };
 }
 
-describe.only('raptor-async/DataHolder domain' , function() {
+describe('raptor-async/AsyncValue domain' , function() {
 
     afterEach(function () {
         var current;
@@ -30,49 +30,49 @@ describe.only('raptor-async/DataHolder domain' , function() {
 
     it('should preserve empty domain', function(done) {
 
-        var holder = new DataHolder();
-        holder.done(function shouldBeEmpty() {
+        var asyncValue = new AsyncValue();
+        asyncValue.done(function shouldBeEmpty() {
             expect(!!process.domain).equal(false);
             done();
         });
 
-        holder.resolve('ok');
+        asyncValue.resolve('ok');
     });
 
     it('should preserve corresponding state of domain', function(done) {
 
         done = createGroupDone(2, done);
 
-        var holder = new DataHolder();
-        holder.done(function shouldBeEmpty() {
+        var asyncValue = new AsyncValue();
+        asyncValue.done(function shouldBeEmpty() {
             expect(!!process.domain).equal(false);
             done();
         });
 
         var domain = Domain.create();
         domain.run(function () {
-            holder.done(function shouldNoBeEmpty() {
+            asyncValue.done(function shouldNoBeEmpty() {
                 expect(!!process.domain).equal(true);
                 done();
             });
         });
 
-        holder.resolve('ok');
+        asyncValue.resolve('ok');
     });
 
     it('should preserve corresponding state of domain, complex', function(done) {
 
         done = createGroupDone(3, done);
 
-        var holder = new DataHolder();
-        holder.done(function shouldBeEmpty() {
+        var asyncValue = new AsyncValue();
+        asyncValue.done(function shouldBeEmpty() {
             expect(!!process.domain).equal(false);
             done();
         });
 
         var domain1 = Domain.create();
         domain1.run(function () {
-            holder.done(function shouldNoBeEmpty() {
+            asyncValue.done(function shouldNoBeEmpty() {
                 expect(process.domain).to.equal(domain1);
                 done();
             });
@@ -80,13 +80,13 @@ describe.only('raptor-async/DataHolder domain' , function() {
 
         var domain2 = Domain.create();
         domain2.run(function () {
-            holder.done(function shouldNoBeEmpty() {
+            asyncValue.done(function shouldNoBeEmpty() {
                 expect(process.domain).to.equal(domain2);
                 done();
             });
         });
 
-        holder.resolve('ok');
+        asyncValue.resolve('ok');
     });
 
 
