@@ -29,7 +29,8 @@
 
     "globals": {
         "define": true,
-        "require": true
+        "require": true,
+        "afterEach": true
     },
 
     "node" : true,
@@ -59,7 +60,7 @@
     "latedef": true,
     "unused": "vars",
     "strict": false,
-    
+
     /* Relaxing options: */
     "eqnull": true
 }

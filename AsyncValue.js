@@ -200,6 +200,10 @@ AsyncValue.prototype = {
             return callback.call(scope || this._scope || this, this.error, this.data);
         }
 
+        if (process.domain) {
+            callback = process.domain.bind(callback);
+        }
+
         addCallback(this, callback, scope);
 
         // only invoke loader if we have loader and we are not currently loading value
