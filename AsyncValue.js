@@ -200,6 +200,16 @@ AsyncValue.prototype = {
             return callback.call(scope || this._scope || this, this.error, this.data);
         }
 
+        // only bind when value has not yet been settled
+        if (process.namespaces) {
+            Object.keys(process.namespaces).forEach(function (k) {
+                var ns = process.namespaces[k];
+                if (ns) {
+                    callback = ns.bind(callback);
+                }
+            });
+        }
+
         if (process.domain) {
             callback = process.domain.bind(callback);
         }
