@@ -1,5 +1,5 @@
 module.exports = function series(work, callback, thisObj) {
-    
+
     var results = new Array(work.length);
 
     thisObj = thisObj || this;
@@ -11,7 +11,11 @@ module.exports = function series(work, callback, thisObj) {
     var createCallback = function(index) {
         var invoked = false;
         return function(err, data) {
+
             if (invoked === true) {
+                if (err) {
+                    throw new Error('callback for async operation at index "' + index + '" failed after completion: ' + err.toString());
+                }
                 throw new Error('callback for async operation at index ' + index + ' invoked more than once');
             }
 
