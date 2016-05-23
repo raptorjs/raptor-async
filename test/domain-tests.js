@@ -1,7 +1,7 @@
 'use strict';
 
 require('chai').should();
-require('chai').Assertion.includeStack = true;
+require('chai').config.includeStack = true;
 var expect = require('chai').expect;
 var Domain = require('domain');
 

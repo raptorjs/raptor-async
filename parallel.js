@@ -22,10 +22,7 @@ module.exports = function parallel(work, callback, thisObj) {
         return function(err, data) {
 
             if (invoked === true) {
-                if (err) {
-                    throw new Error('callback for async operation with key "' + key + '" failed after completion: ' + err.toString());
-                }
-                throw new Error('callback for async operation with key "' + key + '" invoked more than once');
+                throw new Error('callback for async operation with key "' + key + '" invoked after completion. ' + (err ? (err.stack || err) : '(no error)'));
             }
 
             invoked = true;

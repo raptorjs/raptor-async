@@ -13,10 +13,7 @@ module.exports = function series(work, callback, thisObj) {
         return function(err, data) {
 
             if (invoked === true) {
-                if (err) {
-                    throw new Error('callback for async operation at index "' + index + '" failed after completion: ' + err.toString());
-                }
-                throw new Error('callback for async operation at index ' + index + ' invoked more than once');
+                throw new Error('callback for async operation at index "' + index + '" invoked after completion. ' + (err ? (err.stack || err) : '(no error)'));
             }
 
             invoked = true;
